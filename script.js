@@ -310,6 +310,45 @@ document.addEventListener('DOMContentLoaded', function() {
   dots[0].addEventListener('click', () => {
     updateGallery3D(activeIndex);
   });
+
+  // كود الهيدر الجديد للهواتف (إظهار/إخفاء القائمة)
+document.addEventListener('DOMContentLoaded', function() {
+  var menuToggle = document.querySelector('.elementor-menu-toggle');
+  var nav = document.querySelector('.nav-menu');
+  var body = document.body;
+  if(menuToggle && nav) {
+    function toggleMenu() {
+      var expanded = body.classList.toggle('menu-open');
+      menuToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    }
+    menuToggle.addEventListener('click', function(e) {
+      toggleMenu();
+      e.stopPropagation();
+    });
+    menuToggle.addEventListener('keydown', function(e) {
+      if(e.key === 'Enter' || e.key === ' ') {
+        toggleMenu();
+        e.preventDefault();
+      }
+    });
+    // إغلاق القائمة عند الضغط خارج overlay أو على أي عنصر
+    window.addEventListener('click', function(e) {
+      if(body.classList.contains('menu-open')) {
+        if(!nav.contains(e.target) && e.target!==menuToggle) {
+          body.classList.remove('menu-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+    nav.querySelectorAll('a').forEach(function(link){
+      link.addEventListener('click', function(){
+        body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+});
+
   dots[1].addEventListener('click', () => {
     nextSlide();
   });
