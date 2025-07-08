@@ -230,6 +230,73 @@ function showZoom(src) {
 }
 // تم استبدال السلايدر بكود Swiper.js في gallery.html بناءً على طلب المستخدم. الكود القديم معطل.
 
+// كود معرض الصور في moreno-gallery.html
+
+document.addEventListener('DOMContentLoaded', function() {
+  const galleryImages = [
+    '../images/1.jpeg','../images/2.jpeg','../images/3.jpeg','../images/4.jpeg','../images/5.jpeg','../images/6.jpeg','../images/7.jpeg','../images/8.jpeg','../images/9.jpeg','../images/10.jpeg','../images/11.jpeg','../images/12.jpeg','../images/13.jpeg','../images/14.jpeg','../images/15.jpeg','../images/16.jpeg','../images/17.jpeg','../images/18.jpeg','../images/19.jpeg','../images/20.jpeg','../images/21.jpeg','../images/22.jpeg','../images/23.jpeg','../images/24.jpeg','../images/25.jpeg','../images/26.jpeg','../images/27.jpeg','../images/28.jpeg'
+  ];
+  let galleryIndex = 0;
+  const mainImg = document.getElementById('gallery-main-img');
+  const btnPrev = document.getElementById('gallery-prev');
+  const btnNext = document.getElementById('gallery-next');
+  const lightbox = document.getElementById('gallery-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  if(mainImg && btnPrev && btnNext && lightbox && lightboxImg) {
+    function showImg(idx) {
+      galleryIndex = (idx + galleryImages.length) % galleryImages.length;
+      mainImg.src = galleryImages[galleryIndex];
+      mainImg.alt = 'Gallery Image ' + (galleryIndex+1);
+    }
+    btnPrev.onclick = () => showImg(galleryIndex-1);
+    btnNext.onclick = () => showImg(galleryIndex+1);
+    mainImg.onclick = () => {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = galleryImages[galleryIndex];
+    };
+    lightbox.onclick = () => { lightbox.style.display = 'none'; };
+    // دعم الأسهم من الكيبورد
+    document.addEventListener('keydown', (e) => {
+      if(lightbox.style.display === 'flex') {
+        if(e.key === 'ArrowLeft') showImg(galleryIndex-1);
+        if(e.key === 'ArrowRight') showImg(galleryIndex+1);
+        if(e.key === 'Escape') lightbox.style.display = 'none';
+      }
+    });
+    // عرض أول صورة عند التحميل
+    showImg(0);
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (document.querySelector('.gallerySwiper')) {
+    // تهيئة سلايدر Swiper للمعرض
+    const swiper = new Swiper('.gallerySwiper', {
+      effect: 'coverflow',
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 3,
+      spaceBetween: 20,
+      loop: true,
+      coverflowEffect: {
+        rotate: 40,
+        stretch: 0,
+        depth: 180,
+        modifier: 1,
+        slideShadows: true,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: true,
+      },
+    });
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   // مصفوفة أسماء الصور (تعديل حسب الموجود فعلياً)
   const images = [
